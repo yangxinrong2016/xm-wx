@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imxiaomai.wxplatform.dao.KeywordDAO" >
+  <resultMap id="BaseResultMap" type="com.imxiaomai.wxplatform.domain.Keyword" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="wxId" property="wxid" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="responseType" property="responsetype" jdbcType="VARCHAR" />
+    <result column="responseId" property="responseid" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, wxId, content, responseType, responseId
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from keyword
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from keyword
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.imxiaomai.wxplatform.domain.Keyword" >
+    insert into keyword (id, wxId, content, 
+      responseType, responseId)
+    values (#{id,jdbcType=INTEGER}, #{wxid,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{responsetype,jdbcType=VARCHAR}, #{responseid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.imxiaomai.wxplatform.domain.Keyword" >
+    insert into keyword
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="wxid != null" >
+        wxId,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="responsetype != null" >
+        responseType,
+      </if>
+      <if test="responseid != null" >
+        responseId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="wxid != null" >
+        #{wxid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="responsetype != null" >
+        #{responsetype,jdbcType=VARCHAR},
+      </if>
+      <if test="responseid != null" >
+        #{responseid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.imxiaomai.wxplatform.domain.Keyword" >
+    update keyword
+    <set >
+      <if test="wxid != null" >
+        wxId = #{wxid,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="responsetype != null" >
+        responseType = #{responsetype,jdbcType=VARCHAR},
+      </if>
+      <if test="responseid != null" >
+        responseId = #{responseid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imxiaomai.wxplatform.domain.Keyword" >
+    update keyword
+    set wxId = #{wxid,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      responseType = #{responsetype,jdbcType=VARCHAR},
+      responseId = #{responseid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByWxIdContent" resultMap="BaseResultMap" parameterType="com.imxiaomai.wxplatform.domain.Keyword" >
+    select
+    <include refid="Base_Column_List" />
+    from keyword
+    where 1=1
+    <if test="wxid != null" >
+      and wxId = #{wxid,jdbcType=VARCHAR}
+    </if>
+    <if test="content != null" >
+      and content = #{content,jdbcType=VARCHAR}
+    </if>
+  </select>
+</mapper>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imxiaomai.wxplatform.dao.WxUserDAO" >
+  <resultMap id="BaseResultMap" type="com.imxiaomai.wxplatform.domain.WxUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="wxId" property="wxid" jdbcType="VARCHAR" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="isSubscribe" property="issubscribe" jdbcType="TINYINT" />
+    <result column="countSubscribe" property="countsubscribe" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="headimgurl" property="headimgurl" jdbcType="VARCHAR" />
+    <result column="unionid" property="unionid" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="INTEGER" />
+    <result column="ticket" property="ticket" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, wxId, openid, createTime, updateTime, isSubscribe, countSubscribe, nickname, 
+    sex, province, city, country, headimgurl, unionid, source, ticket
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from wx_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from wx_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.imxiaomai.wxplatform.domain.WxUser" >
+    insert into wx_user (id, wxId, openid, 
+      createTime, updateTime, isSubscribe, 
+      countSubscribe, nickname, sex, 
+      province, city, country, 
+      headimgurl, unionid, source, 
+      ticket)
+    values (#{id,jdbcType=INTEGER}, #{wxid,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{issubscribe,jdbcType=TINYINT}, 
+      #{countsubscribe,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{headimgurl,jdbcType=VARCHAR}, #{unionid,jdbcType=VARCHAR}, #{source,jdbcType=INTEGER}, 
+      #{ticket,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.imxiaomai.wxplatform.domain.WxUser" >
+    insert into wx_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="wxid != null" >
+        wxId,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="issubscribe != null" >
+        isSubscribe,
+      </if>
+      <if test="countsubscribe != null" >
+        countSubscribe,
+      </if>
+      <if test="nickname != null" >
+        nickname,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="headimgurl != null" >
+        headimgurl,
+      </if>
+      <if test="unionid != null" >
+        unionid,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="ticket != null" >
+        ticket,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="wxid != null" >
+        #{wxid,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issubscribe != null" >
+        #{issubscribe,jdbcType=TINYINT},
+      </if>
+      <if test="countsubscribe != null" >
+        #{countsubscribe,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null" >
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="headimgurl != null" >
+        #{headimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="unionid != null" >
+        #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=INTEGER},
+      </if>
+      <if test="ticket != null" >
+        #{ticket,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.imxiaomai.wxplatform.domain.WxUser" >
+    update wx_user
+    <set >
+      <if test="wxid != null" >
+        wxId = #{wxid,jdbcType=VARCHAR},
+      </if>
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="issubscribe != null" >
+        isSubscribe = #{issubscribe,jdbcType=TINYINT},
+      </if>
+      <if test="countsubscribe != null" >
+        countSubscribe = #{countsubscribe,jdbcType=INTEGER},
+      </if>
+      <if test="nickname != null" >
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="headimgurl != null" >
+        headimgurl = #{headimgurl,jdbcType=VARCHAR},
+      </if>
+      <if test="unionid != null" >
+        unionid = #{unionid,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=INTEGER},
+      </if>
+      <if test="ticket != null" >
+        ticket = #{ticket,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.imxiaomai.wxplatform.domain.WxUser" >
+    update wx_user
+    set wxId = #{wxid,jdbcType=VARCHAR},
+      openid = #{openid,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      isSubscribe = #{issubscribe,jdbcType=TINYINT},
+      countSubscribe = #{countsubscribe,jdbcType=INTEGER},
+      nickname = #{nickname,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      headimgurl = #{headimgurl,jdbcType=VARCHAR},
+      unionid = #{unionid,jdbcType=VARCHAR},
+      source = #{source,jdbcType=INTEGER},
+      ticket = #{ticket,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByWxUser" resultMap="BaseResultMap" parameterType="com.imxiaomai.wxplatform.domain.WxUser" >
+    select
+    <include refid="Base_Column_List" />
+    from wx_user
+    where 1=1
+    <if test="wxid != null" >
+      and wxId = #{wxid,jdbcType=VARCHAR}
+    </if>
+    <if test="openid != null" >
+      and openid = #{openid,jdbcType=VARCHAR}
+    </if>
+    <if test="issubscribe != null" >
+      and isSubscribe = #{issubscribe,jdbcType=TINYINT}
+    </if>
+    <if test="countsubscribe != null" >
+      and countSubscribe = #{countsubscribe,jdbcType=INTEGER}
+    </if>
+    <if test="nickname != null" >
+      and nickname = #{nickname,jdbcType=VARCHAR}
+    </if>
+    <if test="sex != null" >
+      and sex = #{sex,jdbcType=VARCHAR}
+    </if>
+    <if test="province != null" >
+      and province = #{province,jdbcType=VARCHAR}
+    </if>
+    <if test="city != null" >
+      and city = #{city,jdbcType=VARCHAR}
+    </if>
+    <if test="country != null" >
+      and country = #{country,jdbcType=VARCHAR}
+    </if>
+    <if test="headimgurl != null" >
+      and headimgurl = #{headimgurl,jdbcType=VARCHAR}
+    </if>
+    <if test="unionid != null" >
+      and unionid = #{unionid,jdbcType=VARCHAR}
+    </if>
+    <if test="source != null" >
+      and source = #{source,jdbcType=INTEGER}
+    </if>
+    <if test="ticket != null" >
+      and ticket = #{ticket,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+</mapper>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imxiaomai.wxplatform.dao.WatchBindLogDAO" >
+  <resultMap id="BaseResultMap" type="com.imxiaomai.wxplatform.domain.WatchBindLog" >
+    <result column="date" property="date" jdbcType="VARCHAR" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="time_0_8_watch" property="time08Watch" jdbcType="VARCHAR" />
+    <result column="time_0_8_bind" property="time08Bind" jdbcType="VARCHAR" />
+    <result column="time_8_12_watch" property="time812Watch" jdbcType="VARCHAR" />
+    <result column="time_8_12_bind" property="time812Bind" jdbcType="VARCHAR" />
+    <result column="time_12_14_watch" property="time1214Watch" jdbcType="VARCHAR" />
+    <result column="time_12_14_bind" property="time1214Bind" jdbcType="VARCHAR" />
+    <result column="time_14_17_watch" property="time1417Watch" jdbcType="VARCHAR" />
+    <result column="time_14_17_bind" property="time1417Bind" jdbcType="VARCHAR" />
+    <result column="time_17_19_watch" property="time1719Watch" jdbcType="VARCHAR" />
+    <result column="time_17_19_bind" property="time1719Bind" jdbcType="VARCHAR" />
+    <result column="time_19_24_watch" property="time1924Watch" jdbcType="VARCHAR" />
+    <result column="time_19_24_bind" property="time1924Bind" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    date, source, time_0_8_watch, time_0_8_bind, time_8_12_watch, time_8_12_bind, time_12_14_watch, 
+    time_12_14_bind, time_14_17_watch, time_14_17_bind, time_17_19_watch, time_17_19_bind, 
+    time_19_24_watch, time_19_24_bind
+  </sql>
+
+  <insert id="insert" parameterType="com.imxiaomai.wxplatform.domain.WatchBindLog" >
+    insert into watch_bind_log (date, source, time_0_8_watch, 
+      time_0_8_bind, time_8_12_watch, time_8_12_bind, 
+      time_12_14_watch, time_12_14_bind, time_14_17_watch, 
+      time_14_17_bind, time_17_19_watch, time_17_19_bind, 
+      time_19_24_watch, time_19_24_bind)
+    values (#{date,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, #{time08Watch,jdbcType=VARCHAR}, 
+      #{time08Bind,jdbcType=VARCHAR}, #{time812Watch,jdbcType=VARCHAR}, #{time812Bind,jdbcType=VARCHAR}, 
+      #{time1214Watch,jdbcType=VARCHAR}, #{time1214Bind,jdbcType=VARCHAR}, #{time1417Watch,jdbcType=VARCHAR}, 
+      #{time1417Bind,jdbcType=VARCHAR}, #{time1719Watch,jdbcType=VARCHAR}, #{time1719Bind,jdbcType=VARCHAR}, 
+      #{time1924Watch,jdbcType=VARCHAR}, #{time1924Bind,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.imxiaomai.wxplatform.domain.WatchBindLog" >
+    insert into watch_bind_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="time08Watch != null" >
+        time_0_8_watch,
+      </if>
+      <if test="time08Bind != null" >
+        time_0_8_bind,
+      </if>
+      <if test="time812Watch != null" >
+        time_8_12_watch,
+      </if>
+      <if test="time812Bind != null" >
+        time_8_12_bind,
+      </if>
+      <if test="time1214Watch != null" >
+        time_12_14_watch,
+      </if>
+      <if test="time1214Bind != null" >
+        time_12_14_bind,
+      </if>
+      <if test="time1417Watch != null" >
+        time_14_17_watch,
+      </if>
+      <if test="time1417Bind != null" >
+        time_14_17_bind,
+      </if>
+      <if test="time1719Watch != null" >
+        time_17_19_watch,
+      </if>
+      <if test="time1719Bind != null" >
+        time_17_19_bind,
+      </if>
+      <if test="time1924Watch != null" >
+        time_19_24_watch,
+      </if>
+      <if test="time1924Bind != null" >
+        time_19_24_bind,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="date != null" >
+        #{date,jdbcType=VARCHAR},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="time08Watch != null" >
+        #{time08Watch,jdbcType=VARCHAR},
+      </if>
+      <if test="time08Bind != null" >
+        #{time08Bind,jdbcType=VARCHAR},
+      </if>
+      <if test="time812Watch != null" >
+        #{time812Watch,jdbcType=VARCHAR},
+      </if>
+      <if test="time812Bind != null" >
+        #{time812Bind,jdbcType=VARCHAR},
+      </if>
+      <if test="time1214Watch != null" >
+        #{time1214Watch,jdbcType=VARCHAR},
+      </if>
+      <if test="time1214Bind != null" >
+        #{time1214Bind,jdbcType=VARCHAR},
+      </if>
+      <if test="time1417Watch != null" >
+        #{time1417Watch,jdbcType=VARCHAR},
+      </if>
+      <if test="time1417Bind != null" >
+        #{time1417Bind,jdbcType=VARCHAR},
+      </if>
+      <if test="time1719Watch != null" >
+        #{time1719Watch,jdbcType=VARCHAR},
+      </if>
+      <if test="time1719Bind != null" >
+        #{time1719Bind,jdbcType=VARCHAR},
+      </if>
+      <if test="time1924Watch != null" >
+        #{time1924Watch,jdbcType=VARCHAR},
+      </if>
+      <if test="time1924Bind != null" >
+        #{time1924Bind,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>
