@@ -42,8 +42,7 @@ public class SubscribeProcessor implements IEventProcessor {
             } catch (NumberFormatException e) {
                 log.error("扫描的二维码链接不符合标注，没有场景id, key:{}", key);
             }
-            log.debug("通过扫描二维码关注, wxId:{}, openid:{}, key:{}, ticket:{}, source:{}",
-                    wxId, openid, key, ticket, source);
+            log.debug("通过扫描二维码关注, wxId:{"+wxId+"}, openid:{"+openid+"}, key:{"+key+"}, ticket:{"+ticket+"}, source:{"+source+"}");
             p2PService.pushUserActivity(openid, "扫码关注", "来源:"+source);
         }else {
             p2PService.pushUserActivity(openid, "关注", "");

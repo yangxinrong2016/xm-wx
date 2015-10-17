@@ -7,7 +7,6 @@ import com.imxiaomai.wxplatform.service.IWxUserService;
 import com.imxiaomai.wxplatform.util.Xml;
 import com.imxiaomai.wxplatform.domain.WxUser;
 import com.imxiaomai.wxplatform.weixin.exception.WXException;
-import com.sun.tools.internal.jxc.apt.Const;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -67,8 +66,7 @@ public class EventService {
                     } catch (NumberFormatException e) {
                         log.error("扫描的二维码链接不符合标注，没有场景id, key:{}", key);
                     }
-                    log.debug("通过扫描二维码关注, wxId:{}, openid:{}, key:{}, ticket:{}, source:{}",
-                            wxId, openid, key, ticket, source);
+                    log.debug("通过扫描二维码关注, wxId:{"+wxId+"}, openid:{"+openid+"}, key:{"+key+"}, ticket:{"+ticket+"}, source:{"+source+"}");
                     p2PService.pushUserActivity(openid, "扫码关注", "来源:"+source);
                 }else {
                     p2PService.pushUserActivity(openid, "关注", "");
@@ -144,11 +142,11 @@ public class EventService {
                     wxUserServiceImpl.update(wxUser);
                 }
                 break;
-                
+
             case "CLICK":
                 //自定义菜单点击推送事件
                 key = parsedXml.text("EventKey");
-                log.debug("点击自定义菜单, wxId:{}, openid:{}, key:{}", wxId, openid, key);
+                log.debug("点击自定义菜单, wxId:{"+key+"}, openid:{"+openid+"}, key:{"+key+"}");
                 p2PService.pushUserActivity(openid, "点击自定义菜单", "key:"+key);
                 if(key.equals("CLICK_MY_EXPRESS")){
                     //点击了自定义菜单中“我的快递”
@@ -164,8 +162,7 @@ public class EventService {
                 } catch (NumberFormatException e) {
                     log.error("扫描的二维码链接不符合标注，没有场景id, key:{}", key);
                 }
-                log.debug("已关注用户扫码, wxId:{}, openid:{}, key:{}, ticket:{}, source:{}",
-                            wxId, openid, key, ticket, source);
+                log.debug("已关注用户扫码, wxId:{"+wxId+"}, openid:{"+openid+"}, key:{"+key+"}, ticket:{"+ticket+"}, source:{"+source+"}");
                 p2PService.pushUserActivity(openid, "已关注用户扫码", "来源:"+source);
                 break;
             case "LOCATION":
@@ -173,13 +170,13 @@ public class EventService {
                 String lat = parsedXml.text("Latitude");
                 String lng = parsedXml.text("Longitude");
                 String precision = parsedXml.text("Precision");
-                log.debug("上报地理位置，lat:{}, lng:{}, precision:{}", lat, lng, precision);
+                log.debug("上报地理位置，lat:{"+lat+"}, lng:{"+lng+"}, precision:{"+precision+"}");
                 p2PService.pushUserActivity(openid, "上报地理位置", "lat:"+lat+",lng:"+lng+",precision:"+precision);
                 break;
             case "VIEW":
                 //点击菜单链接
                 key = parsedXml.text("EventKey");
-                log.debug("点击自定义菜单, wxId:{}, openid:{}, key:{}", wxId, openid, key);
+                log.debug("点击自定义菜单, wxId:{"+wxId+"}, openid:{"+openid+"}, key:{"+key+"}");
                 p2PService.pushUserActivity(openid, "点击自定义菜单", "key:"+key);
                 break;
             default:

@@ -111,7 +111,7 @@ public class TemplateMessageService {
             templateMsgService.update(tplMsg);
             if (errcode != 0) {
                 //发送模板失败
-                log.error("调用模板消息接口失败, tplMsgId:{}, errcode:{}, errmsg:{}", tplMsgId, errcode, WXErrorConstants.getErrorMsg(errcode));
+                log.error("调用模板消息接口失败, tplMsgId:{"+tplMsgId+"}, errcode:{"+errcode+"}, errmsg:{"+WXErrorConstants.getErrorMsg(errcode)+"}");
                 throw new WXException("调用模板消息接口失败, " + retStr);
             }
 

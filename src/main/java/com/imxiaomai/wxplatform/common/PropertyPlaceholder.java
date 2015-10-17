@@ -3,7 +3,6 @@ package com.imxiaomai.wxplatform.common;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 
 /**
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
  *
  */
 public class PropertyPlaceholder extends PropertyPlaceholderConfigurer {
-	private static Logger logger = Logger.getLogger(PropertyPlaceholder.class);
 	private static Properties properties = new Properties();
 
 	@Override

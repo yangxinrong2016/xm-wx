@@ -2,55 +2,30 @@
 <!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 	<appender name="myConsole" class="org.apache.log4j.ConsoleAppender">
-        <layout class="org.apache.log4j.PatternLayout">
-                <param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p  %c{2} - %m%n" />
-                <param name="ConversionPattern" value="%m%n" />
-        </layout>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p  %c{2} - %m%n" />
+			<param name="ConversionPattern" value="%m%n" />
+		</layout>
 	</appender>
 	<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/home/a/appdeploy/logs/ssp.log" />
+		<param name="File" value="${webapp.root}/logs/xm-wx.log" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p  %c{2} - %m%n" />
 		</layout>
 	</appender>
-	<appender name="reqLogAppender" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/home/a/appdeploy/logs/ssp_request.log" />
-		<param name="DatePattern" value="'.'yyyy-MM-dd" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%m%n" />
-		</layout>
-	</appender>
-	<appender name="firstJumpAppender" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/home/a/appdeploy/logs/ssp_firstjump.log" />
-		<param name="DatePattern" value="'.'yyyy-MM-dd" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%m%n" />
-		</layout>
-	</appender>
-
-	<appender name="JmonitorAppender"
-		class="com.alibaba.alimonitor.jmonitor.plugin.log4j.JMonitorLog4jAppender">
-	</appender>
-
-	<logger name="reqLogger" additivity="false">
-		<level value="info" />
-		<appender-ref ref="reqLogAppender" />
-	</logger>
-	<logger name="firstJumpLogger" additivity="false">
-		<level value="info" />
-		<appender-ref ref="firstJumpAppender" />
-	</logger>
 	<!-- Root Logger -->
-	
-	<category name="com.alimama.ad" additivity="false">
-       <priority value="debug"/>
-       <appender-ref ref="myConsole" />
-       <appender-ref ref="fileAppender" />
-    </category>
-	<root>
-		<level value="warn" />
+
+	<category name="com.imxiaomai.wxplatform" additivity="false">
+		<priority value="debug"/>
+		<appender-ref ref="myConsole" />
 		<appender-ref ref="fileAppender" />
-		<appender-ref ref="JmonitorAppender" />
+	</category>
+
+	<root>
+		<level value="debug" />
+		<appender-ref ref="fileAppender" />
 	</root>
+
+
 </log4j:configuration>

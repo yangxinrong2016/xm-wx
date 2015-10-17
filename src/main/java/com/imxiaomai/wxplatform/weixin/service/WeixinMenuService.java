@@ -44,7 +44,7 @@ public class WeixinMenuService {
         JSONObject retObject = JSONObject.parseObject(ret);
         httpCode = retObject.getIntValue("errcode");
         if (log.isDebugEnabled()) {
-            log.debug("微信接口:{}, 返回码:{}, 返回值:{}", url, httpCode, retObject.get("errmsg"));
+            log.debug("微信接口:{"+url+"}, 返回码:{"+httpCode+"}, 返回值:{"+retObject.get("errmsg")+"}");
         }
         if (httpCode != 0) {
             //创建菜单失败

@@ -57,8 +57,7 @@ public class EntryController {
 
         long start = System.currentTimeMillis();
         if(log.isDebugEnabled()){
-            log.debug("/validate, signature:{}, timestamp:{}, nonce:{}, echostr:{}",
-                    signature, timestamp, nonce, echostr);
+            log.debug("/validate, signature:{"+signature+"}, timestamp:{"+ timestamp+"},nonce:{"+nonce+"}, echostr:{"+echostr+"}");
         }
         String tmpString = "";
         try {

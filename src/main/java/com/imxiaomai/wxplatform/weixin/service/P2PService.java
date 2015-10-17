@@ -30,7 +30,7 @@ public class P2PService {
      */
     public void pushUserActivity(String openid, String event, String msg){
         if(log.isDebugEnabled()){
-            log.debug("用户活跃事件, openid:{}, event:{}, msg:{}", openid, event, msg);
+            log.debug("用户活跃事件, openid:{"+openid+"}, event:{"+event+"}, msg:{"+msg+"}");
         }
         String url = Constants.P2P_ACTIVE_URL;
         HashMap<String, Object> params = new HashMap<String, Object>();
@@ -79,7 +79,7 @@ public class P2PService {
                 long nowSec = System.currentTimeMillis()/1000;
                 retString = String.format(responseString, openid, wxId, nowSec, msg);
                 if(log.isDebugEnabled()){
-                    log.debug("点击自定义菜单自动回复:{}", retString);
+                    log.debug("点击自定义菜单自动回复:"+retString );
                 }
             }
             return retString;

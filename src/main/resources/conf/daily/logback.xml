@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{H:mm:ss.SSS} %-5level [%logger{16}] %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<property name="LOG_HOME" value="/search/odin/resin_p2p/log" />
+	<appender name="Stat"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_HOME}/weixin/stat.log.%d{yyyyMMdd}
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>[%logger{16}] %d{H:mm:ss.SSS} %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.imxiaomai" level="DEBUG" />
+	<logger name="_" level="DEBUG" />
+	<logger name="org.apache.commons" level="WARN" />
+	<logger name="org.apache.http" level="WARN" />
+
+	<logger name="org.apache.http.client.protocol.ResponseProcessCookies"
+		level="ERROR" />
+	<!-- WARN [o.a.h.c.p.ResponseProcessCookies] Cookie rejected: -->
+
+	<logger name="stat" level="INFO" additivity="false">
+		<appender-ref ref="Stat" />
+	</logger>
+
+	<root level="DEBUG">
+		<appender-ref ref="Console" />
+	</root>
+
+</configuration>
