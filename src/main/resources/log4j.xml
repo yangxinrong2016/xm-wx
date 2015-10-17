@@ -24,7 +24,7 @@
     </category>
 	<root>
 		<level value="debug" />
-		<appender-ref ref="fileAppender" />
+		<appender-ref ref="myConsole" />
 	</root>
 
 

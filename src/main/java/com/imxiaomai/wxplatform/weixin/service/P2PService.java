@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,7 +21,10 @@ import java.util.HashMap;
 @Service("p2PService")
 public class P2PService {
     private static final Logger log = LoggerFactory.getLogger(P2PService.class);
-
+    @Value("${p2pactive.url}")
+    public String P2P_ACTIVE_URL;
+    @Value("${p2pgetmsg.url}")
+    public String P2P_GETMSG_URL;
     /**
      * 推送用户活跃事件给p2p
      *
@@ -32,7 +36,7 @@ public class P2PService {
         if(log.isDebugEnabled()){
             log.debug("用户活跃事件, openid:{"+openid+"}, event:{"+event+"}, msg:{"+msg+"}");
         }
-        String url = Constants.P2P_ACTIVE_URL;
+        String url = P2P_ACTIVE_URL;
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put("openid", openid);
         params.put("event", event);
@@ -53,7 +57,7 @@ public class P2PService {
     public String clickMenuResponse(String wxId, String openid){
         String retStr = "";
         String retString = "";
-        String url = Constants.P2P_GETMSG_URL;
+        String url = P2P_GETMSG_URL;
         url = String.format(url, openid);
         try {
             retStr = HttpClientUtils.get(url);

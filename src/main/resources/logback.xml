@@ -7,7 +7,7 @@
 		</encoder>
 	</appender>
 
-	<property name="LOG_HOME" value="/Users/zengyaowen/logs" />
+	<property name="LOG_HOME" value="/Users/zengyaowen/logs/" />
 	<appender name="Stat"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">

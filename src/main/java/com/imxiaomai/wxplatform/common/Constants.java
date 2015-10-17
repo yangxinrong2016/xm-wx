@@ -43,8 +43,8 @@ public class Constants {
         public static String getBindUrl() {
                 return RESOURCE_BUNDLE.getString("bind");
         }
-        public static final String P2P_ACTIVE_URL = "http://127.0.0.1:8092/p2p/wx/active";
-        public static final String P2P_GETMSG_URL = "http://127.0.0.1:8092/p2p/wx/menuNotify?openid=%s";
+//        public static final String P2P_ACTIVE_URL = "http://127.0.0.1:8092/p2p/wx/active";
+//        public static final String P2P_GETMSG_URL = "http://127.0.0.1:8092/p2p/wx/menuNotify?openid=%s";
         public static final String CUSTOM_MSGSEND_URL= "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s";
         public static final String TEMPLATE_SEND_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s";
         public static final String OAUTH_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code";

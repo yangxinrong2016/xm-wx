@@ -8,7 +8,7 @@
 		</layout>
 	</appender>
 	<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="${webapp.root}/logs/xm-wx.log" />
+		<param name="File" value="/search/odin/resin_p2p/log/weixin" />
 		<param name="DatePattern" value="'.'yyyy-MM-dd" />
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p  %c{2} - %m%n" />
@@ -18,7 +18,6 @@
 
 	<category name="com.imxiaomai.wxplatform" additivity="false">
 		<priority value="debug"/>
-		<appender-ref ref="myConsole" />
 		<appender-ref ref="fileAppender" />
 	</category>
 
