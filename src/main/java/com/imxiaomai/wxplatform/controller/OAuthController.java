@@ -34,7 +34,7 @@ public class OAuthController {
     public static final Pattern pPattern = Pattern.compile("p:([^,]+)[,}]");
 
     @RequestMapping("/redirect")
-    public Object redirect(HttpServletRequest request, HttpServletResponse response,
+    public void redirect(HttpServletRequest request, HttpServletResponse response,
                            @RequestParam String state, @RequestParam(required = false, defaultValue = "") String code) throws IOException {
 
         long start = System.currentTimeMillis();
@@ -46,7 +46,6 @@ public class OAuthController {
                 log.debug("用户拒绝授权");
             }
             gotoErrorPage(request, response);
-            return "";
         }
         String type = null;
         String url = null;
@@ -102,14 +101,12 @@ public class OAuthController {
             if (url == null) {
                 log.error("url为空, state:" + state);
                 gotoErrorPage(request, response);
-                return "";
             }
             URL urlURL = new URL(url);
             String query = urlURL.getQuery();
             if (type == null || type.equals("")) {
                 log.debug("参数错误，state中的type参数为空");
                 gotoErrorPage(request, response);
-                return "";
             } else if (type.equals(Constants.OAUTH_TYPE_BASE)) {
                 //只需要获得用户的openid信息
                 openid = oAuthService.getOauthAccessTokenDTO(code).getOpenId();
@@ -128,7 +125,7 @@ public class OAuthController {
                 openid = oAuthService.getOauthAccessTokenDTO(code).getOpenId();
                 query = (StringUtils.isBlank(query) ? "" : query + "&") + "openid=" + openid;
                 url = String.format("%s://%s%s%s?%s", urlURL.getProtocol(), urlURL.getHost(), urlURL.getPath(), urlURL.getRef() != null ? "#" + urlURL.getRef() : "", query);
-                return "redirect:" + url;
+                response.sendRedirect(url);
             } else if (type.equals(Constants.OAUTH_TYPE_USER_INFO)) {
                 //需要获得用户的基本信息，会弹出绿色的用户授权页面（是微信自身的页面）
                 WxUser wxUser = oAuthService.getWxUser(code);
@@ -142,7 +139,6 @@ public class OAuthController {
             } else {
                 log.debug("参数错误，state中的type参数未知，不知道怎么处理。type:" + type);
                 gotoErrorPage(request, response);
-                return "";
             }
             url = String.format("%s://%s%s?%s", urlURL.getProtocol(), urlURL.getHost(), urlURL.getPath(), query);
             log.debug("oauth跳转到:" + url);
@@ -150,11 +146,9 @@ public class OAuthController {
             log.error("获得微信用户信息失败:" , e);
 //            AutoLogs.log(AutoLogs.LOG_TYPE_WXEXCEPTION_OAUTH, (int) (System.currentTimeMillis() - start));
             gotoErrorPage(request, response);
-            return "";
         } catch (Exception e) {
             log.error("获得微信用户信息失败:" , e);
             gotoErrorPage(request, response);
-            return "";
         }
         //埋openid的cookie
         Cookie openIdCookie = new Cookie(Constants.COOKIE_NAME_OPEN_ID, openid);
@@ -162,7 +156,7 @@ public class OAuthController {
         openIdCookie.setPath("/");
         openIdCookie.setMaxAge(864000);
         response.addCookie(openIdCookie);
-        return "redirect:" + url;
+        response.sendRedirect(url);
     }
     public void gotoErrorPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //TODO:错误页面跳到哪里了？

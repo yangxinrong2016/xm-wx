@@ -93,6 +93,9 @@ public class CustomMsgService {
 			int errcode = retJson.get("errcode") == null ? -999999 : retJson.getIntValue("errcode");
 			String errmsg = retJson.getString("errmsg");
 			ctsMsg = customServiceImpl.getById(ctsMsgId);
+			if(null == ctsMsg){
+				ctsMsg = new CustomMsg();
+			}
 			ctsMsg.setErrorcode(errcode);
 			ctsMsg.setCodemsg(WXErrorConstants.getErrorMsg(errcode));
 			ctsMsg.setErrmsg(errmsg);
