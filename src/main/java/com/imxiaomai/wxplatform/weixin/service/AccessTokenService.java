@@ -96,7 +96,7 @@ public class AccessTokenService {
                     return retAccessToken;
                 }else {
                     //更新
-                    accessToken.setCreatetime(new Date(nowLong + 1000*expires));
+                    accessToken.setExpiretime(new Date(nowLong + 1000*expires));
                     accessToken.setUpdatetime(now);
                     accessToken.setAccesstoken(token);
                     accessTokenServiceImpl.updateAccessToken(accessToken);
