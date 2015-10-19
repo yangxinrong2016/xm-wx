@@ -83,7 +83,7 @@ public class TemplateMessageService {
             int tplMsgId = tplMsg.getId();
             //发送模板消息
             AccessToken accessToken = accessTokenService.getAccessToken(wxId);
-            url = String.format(url, accessToken);
+            url = String.format(url, accessToken.getAccesstoken());
             String retStr = HttpClientUtils.post(url, msgJsonString, Constants.CHARSET_UTF8);
             if (StringUtils.isEmpty(retStr)) {
                 //发送给微信失败
