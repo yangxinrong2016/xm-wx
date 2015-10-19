@@ -6,7 +6,7 @@ public interface TemplateMsgDAO {
 
     int deleteByPrimaryKey(Integer id);
 
-    int insert(TemplateMsg record);
+    void insert(TemplateMsg record);
 
     int insertSelective(TemplateMsg record);
 

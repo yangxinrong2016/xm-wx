@@ -11,7 +11,7 @@ public interface ITemplateMsgService {
 
     void update(TemplateMsg templateMsg);
 
-    int insert(TemplateMsg templateMsg);
+    void insert(TemplateMsg templateMsg);
 
     TemplateMsg getById(Integer id);
 }

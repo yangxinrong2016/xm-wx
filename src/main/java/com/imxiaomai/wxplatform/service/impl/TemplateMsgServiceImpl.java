@@ -29,8 +29,8 @@ public class TemplateMsgServiceImpl implements ITemplateMsgService {
     }
 
     @Override
-    public int insert(TemplateMsg templateMsg) {
-        return templateMsgDAO.insert(templateMsg);
+    public void insert(TemplateMsg templateMsg) {
+        templateMsgDAO.insert(templateMsg);
     }
 
     @Override

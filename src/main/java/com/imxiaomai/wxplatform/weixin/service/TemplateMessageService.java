@@ -79,8 +79,8 @@ public class TemplateMessageService {
             tplMsg.setEventstatus("");
             //此消息的当前已经重试次数，可以动态变化来控制最大重发次数
             tplMsg.setRetry(MAX_RETRY - retry);
-            int tplMsgId = templateMsgService.insert(tplMsg);
-
+            templateMsgService.insert(tplMsg);
+            int tplMsgId = tplMsg.getId();
             //发送模板消息
             AccessToken accessToken = accessTokenService.getAccessToken(wxId);
             url = String.format(url, accessToken);
