@@ -59,8 +59,11 @@ public class TextMsgService {
         try {
             Keyword keyword = keywordServiceImpl.getByContent(wxId, content);
             if(null == keyword){
-                log.error("默认关键字都木有，r u kidding me V_V, wxId:{"+ wxId +"}, openid:{"+openid+"}, content:{"+content+"}");
-                throw new WXException(String.format("默认关键字都木有，r u kidding me V_V, wxId:%s, openid:%s, content:%s", wxId, openid, content));
+                keyword = keywordServiceImpl.getByContent(wxId, Constants.DEFAULT_RESPONSE_CONTENT);
+                if(null == keyword){
+                    log.error("默认关键字都木有，r u kidding me V_V, wxId:{"+ wxId +"}, openid:{"+openid+"}, content:{"+content+"}");
+                    throw new WXException(String.format("默认关键字都木有，r u kidding me V_V, wxId:%s, openid:%s, content:%s", wxId, openid, content));
+                }
             }
             if(keyword.getResponsetype().equals(Constants.WX_RESPONSE_TYPE_TEXT)) {
                 ResponseText responseText = responseTextServiceImpl.selectByPrimaryKey(keyword.getResponseid());
