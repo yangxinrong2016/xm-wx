@@ -49,6 +49,7 @@ public class Constants {
         public static final String TEMPLATE_SEND_URL = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=%s";
         public static final String OAUTH_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=%s&secret=%s&code=%s&grant_type=authorization_code";
         public static final String OAUTH_GET_USER_URL = "https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN";
+        public static final String GET_UID__URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN";
         public static final String COOKIE_NAME_OPEN_ID = "xiaomai_open_id";
         public static final String WEI_XIN_FOWARD_GRAP = "fg";
 //        private static final Config defH5MallURL = Config.of("h5mall_url", "http://m.m.mall.test.imxiaomai.com");
