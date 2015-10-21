@@ -61,8 +61,9 @@ public class JsApiController {
     		// 获取jsapi调用的ticket。
     		JsapiTicket jsApiTicket = JsApiTicketServiceImpl.getByWxId(WX_ID);
     		if(jsApiTicket==null) {
+				log.error("get js api ticket error, the wei xin id is :" + WX_ID);
 				retDTO.setCode(-1);
-				retDTO.setMsg("获取jsapi ticket失败");
+				retDTO.setMsg("get jsapi ticket fail because the jspApiTicket is null");
 				return retDTO;
     		}
     		String ticket = jsApiTicket.getTicket();
@@ -81,7 +82,7 @@ public class JsApiController {
 //            AutoLogs.log(AutoLogs.LOG_TYPE_IOEXCEPTION, (int)(System.currentTimeMillis() - start));
 			log.error("get js api signature error", e);
 			retDTO.setCode(-1);
-			retDTO.setMsg("获取jsapi ticket失败");
+			retDTO.setMsg("get jsapi ticket becasue exception");
 			return JSONUtil.toJson(retDTO);
         }
     }
