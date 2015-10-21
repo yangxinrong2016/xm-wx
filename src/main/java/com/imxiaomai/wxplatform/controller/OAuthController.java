@@ -109,8 +109,8 @@ public class OAuthController {
                 gotoErrorPage(request, response, url);
             } else if (type.equals(Constants.OAUTH_TYPE_BASE)) {
                 //只需要获得用户的openid信息
-//                openid = oAuthService.getOauthAccessTokenDTO(code).getOpenId();
-//                log.debug("微信用户openid:" + openid);
+                openid = oAuthService.getOauthAccessTokenDTO(code).getOpenId();
+                log.debug("微信用户openid:" + openid);
                 /*
                  * 安全角度考虑，链接中不再携带openid
                 String tmp = "openid="+openid;
