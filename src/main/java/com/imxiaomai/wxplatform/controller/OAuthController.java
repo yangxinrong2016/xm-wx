@@ -106,7 +106,7 @@ public class OAuthController {
             String query = urlURL.getQuery();
             if (type == null || type.equals("")) {
                 log.debug("参数错误，state中的type参数为空");
-                gotoErrorPage(request, response);
+                gotoErrorPage(request, response, url);
             } else if (type.equals(Constants.OAUTH_TYPE_BASE)) {
                 //只需要获得用户的openid信息
                 openid = oAuthService.getOauthAccessTokenDTO(code).getOpenId();
@@ -138,17 +138,17 @@ public class OAuthController {
                 }
             } else {
                 log.debug("参数错误，state中的type参数未知，不知道怎么处理。type:" + type);
-                gotoErrorPage(request, response);
+                gotoErrorPage(request, response, url);
             }
             url = String.format("%s://%s%s?%s", urlURL.getProtocol(), urlURL.getHost(), urlURL.getPath(), query);
             log.debug("oauth跳转到:" + url);
         } catch (WXException e) {
             log.error("获得微信用户信息失败:" , e);
 //            AutoLogs.log(AutoLogs.LOG_TYPE_WXEXCEPTION_OAUTH, (int) (System.currentTimeMillis() - start));
-            gotoErrorPage(request, response);
+            gotoErrorPage(request, response, url);
         } catch (Exception e) {
             log.error("获得微信用户信息失败:" , e);
-            gotoErrorPage(request, response);
+            gotoErrorPage(request, response, url);
         }
         //埋openid的cookie
         Cookie openIdCookie = new Cookie(Constants.COOKIE_NAME_OPEN_ID, openid);
@@ -159,8 +159,17 @@ public class OAuthController {
         response.sendRedirect(url);
     }
     public void gotoErrorPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //TODO:错误页面跳到哪里了？
-        response.sendRedirect("");
+        gotoErrorPage(request, response, "");
+    }
+
+    public void gotoErrorPage(HttpServletRequest request, HttpServletResponse response,String url) throws IOException {
+        if(log.isDebugEnabled()){
+            log.error("go to error page, url: " + url);
+        }
+        if(StringUtils.isEmpty(url)){
+            url = "";
+        }
+        response.sendRedirect(url);
     }
 
     public String getUrlParameterString(WxUser wxUser) {
