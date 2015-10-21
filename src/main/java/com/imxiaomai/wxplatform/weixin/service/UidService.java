@@ -26,17 +26,15 @@ public class UidService {
 
 	@Resource
 	AccessTokenService accessTokenService;
-	@Value("${wxid}")
-	public String WX_ID;
 
 	private static final Logger log = LoggerFactory
 			.getLogger(UidService.class);
-	public String getUidByOpenId(String openId){
+	public String getUidByOpenId(String openId, String wxId, String appId, String appSecret){
 		String result = "";
 		AccessToken accessToken = null;
 		try {
-			accessToken = accessTokenService.getAccessToken(WX_ID);
-			String url = String.format(Constants.GET_UID__URL,accessToken.getAccesstoken(),openId);
+			accessToken = accessTokenService.getAccessToken(wxId, appId, appSecret);
+			String url = String.format(Constants.GET_UID_URL,accessToken.getAccesstoken(),openId);
 			String retStr = HttpClientUtils.get(url);
 			if(StringUtils.isNotEmpty(retStr)){
 				JSONObject retJson = JSONObject.parseObject(retStr);

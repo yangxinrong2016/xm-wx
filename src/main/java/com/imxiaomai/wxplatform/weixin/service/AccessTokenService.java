@@ -27,20 +27,23 @@ public class AccessTokenService {
     @Value("${app.secret}")
     public String APP_SECRET;
 
+
+    public AccessToken getAccessToken(String wxId) throws Exception {
+        return getAccessToken(wxId, APP_ID, APP_SECRET);
+    }
     /**
      * 得到accessToken
      * 注意：此函数不保证安全的，需要一个脚本进行定期刷新
      * @param wxId
      * @return null出错了，其他正常
      */
-    public AccessToken getAccessToken(String wxId) throws Exception {
-        
+    public AccessToken getAccessToken(String wxId, String appId, String appSecret) throws Exception {
         AccessToken accessToken = null;
         try {
             accessToken = accessTokenServiceImpl.getAccessTokenByWxId(wxId);
             if(accessToken == null) {
                 //还没有此token，获取一下
-                accessToken = refreshAccessToken(wxId);
+                accessToken = refreshAccessToken(wxId, appId, appSecret);
             }else {
                 long now = new Date().getTime();
                 //如果接近过期时间10分钟内，就进行刷新，一般是由后台脚本进行集中刷新，这里只是进行一次保险
@@ -59,6 +62,10 @@ public class AccessTokenService {
         return accessToken;
         
     }
+
+    public AccessToken refreshAccessToken(String wxId){
+        return refreshAccessToken(wxId, APP_ID, APP_SECRET);
+    }
     
     /**
      * 刷新access token
@@ -66,10 +73,10 @@ public class AccessTokenService {
      * @param wxId
      * @return 失败，null；成功
      */
-    public AccessToken refreshAccessToken(String wxId) {
+    public AccessToken refreshAccessToken(String wxId,String appId, String appSecret) {
         AccessToken retAccessToken = null;
         try {
-            String url = String.format(Constants.GET_ACCESSTOKEN_URL, APP_ID, APP_SECRET);
+            String url = String.format(Constants.GET_ACCESSTOKEN_URL, appId, appSecret);
             String retStr = HttpClientUtils.get(url);
             JSONObject ret = JSONObject.parseObject(retStr);
             String errcode = ret.getString("errcode");
