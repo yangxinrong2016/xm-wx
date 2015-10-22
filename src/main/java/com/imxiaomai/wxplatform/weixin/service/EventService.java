@@ -2,24 +2,20 @@ package com.imxiaomai.wxplatform.weixin.service;
 
 import com.imxiaomai.wxplatform.common.Constants;
 import com.imxiaomai.wxplatform.domain.TemplateMsg;
+import com.imxiaomai.wxplatform.domain.WxUser;
 import com.imxiaomai.wxplatform.service.ITemplateMsgService;
 import com.imxiaomai.wxplatform.service.IWxUserService;
 import com.imxiaomai.wxplatform.util.Xml;
-import com.imxiaomai.wxplatform.domain.WxUser;
 import com.imxiaomai.wxplatform.weixin.exception.WXException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
 
 @Service("eventService")
 public class EventService {
-    
-    private static final Logger log = LoggerFactory.getLogger(EventService.class);
+
+    private static final Logger log = Logger.getLogger(EventService.class);
     @Resource
     P2PService p2PService;
     @Resource
@@ -47,14 +43,14 @@ public class EventService {
                 String msgId = parsedXml.text("MsgID");
                 String status = parsedXml.text("Status");
                 TemplateMsg tplMsg = templateMsgServiceImpl.getByWxIdAndOpenIdAndMsgId(wxId, openid, msgId);
-                log.debug("更新模板消息的到达状态数据, msgId:{}", msgId);
+                log.debug("更新模板消息的到达状态数据, msgId:{"+msgId+"}");
                 tplMsg.setEventstatus(status);
                 templateMsgServiceImpl.update(tplMsg);
                 break;
             case "subscribe":
                 //订阅
                 if(log.isDebugEnabled()){
-                    log.debug("新用户关注, wxId:{}, openid:{}", wxId, openid);
+                    log.debug("新用户关注, wxId:{"+wxId+"}, openid:{"+openid+"}");
                 }
                 key = parsedXml.text("EventKey");
                 String ticket = parsedXml.text("Ticket");
@@ -64,7 +60,7 @@ public class EventService {
                     try {
                         source = new Integer(key.replaceAll("qrscene_", ""));
                     } catch (NumberFormatException e) {
-                        log.error("扫描的二维码链接不符合标注，没有场景id, key:{}", key);
+                        log.error("扫描的二维码链接不符合标注，没有场景id, key:{"+key+"}");
                     }
                     log.debug("通过扫描二维码关注, wxId:{"+wxId+"}, openid:{"+openid+"}, key:{"+key+"}, ticket:{"+ticket+"}, source:{"+source+"}");
                     p2PService.pushUserActivity(openid, "扫码关注", "来源:"+source);
@@ -107,12 +103,12 @@ public class EventService {
                     wxUser.setNickname("");
                     wxUserServiceImpl.update(wxUser);
                 }
-                log.debug("关注事件自动回复:{}", retString);
+                log.debug("关注事件自动回复:{"+retString+"}");
                 retString = textMsgService.getResponseContent(wxId, openid, createTime, "关注回复");
                 break;
             case "unsubscribe":
                 //取消订阅
-                log.debug("取消关注, wxId:{}, openid:{}", wxId, openid);
+                log.debug("取消关注, wxId:{"+wxId+"}, openid:{"+openid+"}");
                 p2PService.pushUserActivity(openid, "取消关注", "");
 
                 wxUser = wxUserServiceImpl.getByWxIdAndOpenid(wxId, openid);
@@ -160,7 +156,7 @@ public class EventService {
                 try {
                     source = new Integer(key.replaceAll("qrscene_", ""));
                 } catch (NumberFormatException e) {
-                    log.error("扫描的二维码链接不符合标注，没有场景id, key:{}", key);
+                    log.error("扫描的二维码链接不符合标注，没有场景id, key:{"+key+"}");
                 }
                 log.debug("已关注用户扫码, wxId:{"+wxId+"}, openid:{"+openid+"}, key:{"+key+"}, ticket:{"+ticket+"}, source:{"+source+"}");
                 p2PService.pushUserActivity(openid, "已关注用户扫码", "来源:"+source);
@@ -180,7 +176,7 @@ public class EventService {
                 p2PService.pushUserActivity(openid, "点击自定义菜单", "key:"+key);
                 break;
             default:
-                log.debug("未处理的事件类型:{}", event);
+                log.debug("未处理的事件类型:{"+event+"}");
                 break;
             }
         }

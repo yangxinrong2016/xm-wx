@@ -5,16 +5,12 @@ import com.imxiaomai.wxplatform.common.Constants;
 import com.imxiaomai.wxplatform.common.WXErrorConstants;
 import com.imxiaomai.wxplatform.domain.AccessToken;
 import com.imxiaomai.wxplatform.domain.Menu;
-import com.imxiaomai.wxplatform.service.IAccessTokenService;
 import com.imxiaomai.wxplatform.service.IMenuService;
 import com.imxiaomai.wxplatform.util.HttpClientUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.sql.SQLException;
 
 /**
  * Created by zengyaowen on 15-10-14.
@@ -26,8 +22,7 @@ public class WeixinMenuService {
     private IMenuService menuServiceImpl;
     @Resource
     private AccessTokenService accessTokenService;
-    private static final Logger log = LoggerFactory.getLogger(WeixinMenuService.class);
-
+    private static final Logger log = Logger.getLogger(WeixinMenuService.class);
     public void createMenu(String wxId, boolean accessTokenExpiredRetry) throws Exception {
         int httpCode = 0;
         Menu menu = menuServiceImpl.getMenuByWxId(wxId);

@@ -1,7 +1,6 @@
 package com.imxiaomai.wxplatform.weixin.service;
 
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.imxiaomai.wxplatform.common.Constants;
 import com.imxiaomai.wxplatform.common.WXErrorConstants;
@@ -12,8 +11,7 @@ import com.imxiaomai.wxplatform.util.HttpClientUtils;
 import com.imxiaomai.wxplatform.util.Md5Util;
 import com.imxiaomai.wxplatform.weixin.exception.WXException;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -28,8 +26,7 @@ public class CustomMsgService {
 	AccessTokenService accessTokenService;
 	@Resource
 	ICustomMsgServcie customServiceImpl;
-	private static final Logger log = LoggerFactory
-			.getLogger(CustomMsgService.class);
+	private static final Logger log = Logger.getLogger(CustomMsgService.class);
 
 	public static final long MAX_RETRY = 3;
 
@@ -62,7 +59,7 @@ public class CustomMsgService {
 			textJson.put("msgtype", "text");
 			textJson.put("text", textContentJson);
 			String textContent = textJson.toString();
-			log.debug("【文本】客服消息内容:{}", textContent);
+			log.debug("【文本】客服消息内容:{"+textContent+"}");
 
 			// 先将要发送的模板消息入库
 			Date now = new Date();
@@ -81,7 +78,7 @@ public class CustomMsgService {
 			Integer ctsMsgId = customServiceImpl.insert(ctsMsg);
 			url = String.format(url, accessToken.getAccesstoken());
 			String retStr = HttpClientUtils.post(url, textContent, Constants.CHARSET_UTF8);
-			log.debug("微信接口:{}, 返回值:{}", url, retStr);
+			log.debug("微信接口:{"+url+"}, 返回值:{"+retStr+"}");
 			if (StringUtils.isEmpty(retStr)) {
 				// 发送给微信失败
 				ctsMsg = customServiceImpl.getById(ctsMsgId);

@@ -10,9 +10,9 @@ import com.imxiaomai.wxplatform.util.HttpClientUtils;
 import com.imxiaomai.wxplatform.util.Md5Util;
 import com.imxiaomai.wxplatform.weixin.exception.WXException;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,8 +20,8 @@ import java.util.Map;
 
 @Service("templateMessageService")
 public class TemplateMessageService {
-    
-    private static final Logger log = LoggerFactory.getLogger(TemplateMessageService.class);
+
+    private static final Logger log = Logger.getLogger(TemplateMessageService.class);
     @Resource
     ITemplateMsgService templateMsgService;
     @Resource
@@ -91,7 +91,7 @@ public class TemplateMessageService {
                 tplMsg.setErrorcode(ERROR_CODE_SEND_TO_WX_FAIL);
                 tplMsg.setErrmsg(getErrorCodeMsg(ERROR_CODE_SEND_TO_WX_FAIL));
                 templateMsgService.update(tplMsg);
-                log.error("访问微信接口失败, 接口:{}, 返回值:{}", url, retStr);
+                log.error("访问微信接口失败, 接口:{"+url+"}, 返回值:{"+retStr+"}");
                 throw new WXException(String.format("访问微信接口失败, 接口:%s, 返回值:%s", url, retStr));
             }
 
@@ -101,7 +101,7 @@ public class TemplateMessageService {
             String msgid = responseJsonNode.getString("msgid") == null ? "" : responseJsonNode.getString("msgid");
             tplMsg = templateMsgService.getById(tplMsgId);
             if(tplMsg == null){
-                log.error("没有找到此模板消息, tplMsgId:{}", tplMsgId);
+                log.error("没有找到此模板消息, tplMsgId:{"+tplMsgId+"}");
                 throw new WXException("没有找到此模板消息, tplMsgId:"+tplMsgId);
             }
             tplMsg.setErrorcode(errcode);
@@ -163,7 +163,7 @@ public class TemplateMessageService {
                 tplMsg.setRetry(tplMsg.getRetry() + 1);
                 templateMsgService.update(tplMsg);
             }else {
-                log.error("重发失败的模板消息出错, tplMsgId:{}", tplMsgId);
+                log.error("重发失败的模板消息出错, tplMsgId:{"+tplMsgId+"}");
             }
 
         } catch (Exception e) {

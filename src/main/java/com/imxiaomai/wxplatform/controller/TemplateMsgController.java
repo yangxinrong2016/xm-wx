@@ -28,9 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/templateMsg")
 public class TemplateMsgController {
-    
-    private static final Logger log = LoggerFactory.getLogger(TemplateMsgController.class);
 
+
+    private static final org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(TemplateMsgController.class);
     private static final String RESEND_TOKEN = "oVfRGoIVrkWxD44u7DVHNIPILVR";
 
     @Resource
@@ -49,7 +49,7 @@ public class TemplateMsgController {
         try {
             String postData = HttpReqUtils.getDataFromRequest(request);
 
-            log.debug("/templateMsg/send postData:{}", postData);
+            log.debug("/templateMsg/send postData:{"+postData+"}");
 
             JSONObject postJsonNode = JSONObject.parseObject(postData);
             String openid = postJsonNode.getString("touser");
