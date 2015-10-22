@@ -8,18 +8,16 @@ import com.imxiaomai.wxplatform.service.impl.ResponseTextServiceImpl;
 import com.imxiaomai.wxplatform.util.ResourceUtil;
 import com.imxiaomai.wxplatform.util.Xml;
 import com.imxiaomai.wxplatform.weixin.exception.WXException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
 
 @Service("textMsgService")
 public class TextMsgService {
-    
-    private static final Logger log = LoggerFactory.getLogger(TextMsgService.class);
+
+    private static final Logger log = Logger.getLogger(TextMsgService.class);
     @Resource
     KeywordServiceImpl keywordServiceImpl;
     @Resource
@@ -68,12 +66,12 @@ public class TextMsgService {
             if(keyword.getResponsetype().equals(Constants.WX_RESPONSE_TYPE_TEXT)) {
                 ResponseText responseText = responseTextServiceImpl.selectByPrimaryKey(keyword.getResponseid());
                 if(null == responseText) {
-                    log.error("没有回复的文本消息, id:{}", keyword.getResponseid());
-                    throw new WXException("没有回复的文本消息, id:{}" + keyword.getResponseid());
+                    log.error("没有回复的文本消息, id:{"+keyword.getResponseid()+"}");
+                    throw new WXException("没有回复的文本消息, id:{"+keyword.getResponseid()+"}");
                 }
                 retString = formatFromTemplate(wxId, openid, responseText.getContent());
             }else{
-                log.error("不支持的回复消息类型:{}, 目前只支持text类型", keyword.getResponsetype());
+                log.error("不支持的回复消息类型:{"+keyword.getResponsetype()+"}, 目前只支持text类型");
                 throw new WXException("不支持的回复消息类型:"+keyword.getResponsetype()+", 目前只支持text类型");
             }
             
@@ -100,7 +98,7 @@ public class TextMsgService {
         long nowSec = System.currentTimeMillis()/1000;
         String retString = String.format(responseString, openid, wxId, nowSec, content);
         
-        log.debug("回复的文本消息:\n{}", retString);
+        log.debug("回复的文本消息:\n{"+retString+"}");
         
         return retString;
     }

@@ -6,10 +6,11 @@ import com.imxiaomai.wxplatform.domain.JsapiTicket;
 import com.imxiaomai.wxplatform.dto.JsApiConfigDTO;
 import com.imxiaomai.wxplatform.dto.RetDTO;
 import com.imxiaomai.wxplatform.service.IJsApiTicketService;
+import com.imxiaomai.wxplatform.util.HttpClientUtils;
 import com.imxiaomai.wxplatform.util.HttpReqUtils;
 import com.imxiaomai.wxplatform.util.JSONUtil;
 import com.imxiaomai.wxplatform.util.SHA1;
-import org.slf4j.Logger;
+import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -30,10 +31,10 @@ import java.util.Random;
 @Controller
 @RequestMapping("/jsapi")
 public class JsApiController {
-    
-    private static final Logger log = LoggerFactory.getLogger(JsApiController.class);
+
+    private static final Logger log = Logger.getLogger(JsApiController.class);
 	@Resource
-	IJsApiTicketService JsApiTicketServiceImpl;
+	IJsApiTicketService jsApiTicketServiceImpl;
 	@Value("${app.id}")
 	public String APP_ID;
 	@Value("${wxid}")
@@ -59,10 +60,11 @@ public class JsApiController {
         	String timestamp = start+"";
         	String nonceStr = "xm_wx_js"+getRandomString(5);
     		// 获取jsapi调用的ticket。
-    		JsapiTicket jsApiTicket = JsApiTicketServiceImpl.getByWxId(WX_ID);
+    		JsapiTicket jsApiTicket = jsApiTicketServiceImpl.getByWxId(WX_ID);
     		if(jsApiTicket==null) {
+				log.error("get js api ticket error, the wei xin id is :" + WX_ID);
 				retDTO.setCode(-1);
-				retDTO.setMsg("获取jsapi ticket失败");
+				retDTO.setMsg("get jsapi ticket fail because the jspApiTicket is null");
 				return retDTO;
     		}
     		String ticket = jsApiTicket.getTicket();
@@ -81,7 +83,7 @@ public class JsApiController {
 //            AutoLogs.log(AutoLogs.LOG_TYPE_IOEXCEPTION, (int)(System.currentTimeMillis() - start));
 			log.error("get js api signature error", e);
 			retDTO.setCode(-1);
-			retDTO.setMsg("获取jsapi ticket失败");
+			retDTO.setMsg("get jsapi ticket becasue exception");
 			return JSONUtil.toJson(retDTO);
         }
     }

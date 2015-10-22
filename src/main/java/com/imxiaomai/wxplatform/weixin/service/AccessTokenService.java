@@ -1,25 +1,21 @@
 package com.imxiaomai.wxplatform.weixin.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.imxiaomai.wxplatform.common.Constants;
 import com.imxiaomai.wxplatform.domain.AccessToken;
 import com.imxiaomai.wxplatform.service.IAccessTokenService;
 import com.imxiaomai.wxplatform.util.HttpClientUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Date;
 
 @Service("accessTokenService")
 public class AccessTokenService {
-    
-    private static final Logger log = LoggerFactory.getLogger(AccessTokenService.class);
+
+    private static final Logger log = Logger.getLogger(AccessTokenService.class);
     @Resource
     private IAccessTokenService accessTokenServiceImpl;
     @Value("${app.id}")

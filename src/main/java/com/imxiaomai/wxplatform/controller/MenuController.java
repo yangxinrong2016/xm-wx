@@ -8,12 +8,12 @@ import com.imxiaomai.wxplatform.common.Constants;
 import com.imxiaomai.wxplatform.dto.RetDTO;
 import com.imxiaomai.wxplatform.util.JSONUtil;
 import com.imxiaomai.wxplatform.weixin.service.WeixinMenuService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +29,7 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/menu")
 public class MenuController {
-    private static final Logger log = LoggerFactory.getLogger(MenuController.class);
+    private static final Logger log = Logger.getLogger(MenuController.class);
     @Resource
     WeixinMenuService weixinMenuService;
     @Value("${wxid}")

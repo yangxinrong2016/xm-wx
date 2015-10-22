@@ -7,15 +7,14 @@ import com.imxiaomai.wxplatform.dto.OauthAccessTokenDTO;
 import com.imxiaomai.wxplatform.util.HttpClientUtils;
 import com.imxiaomai.wxplatform.weixin.exception.WXException;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service("oAuthService")
 public class OAuthService {
-    
-    private static final Logger log = LoggerFactory.getLogger(OAuthService.class);
+
+    private static final Logger log = Logger.getLogger(OAuthService.class);
     @Value("${app.id}")
     public String APP_ID;
     @Value("${app.secret}")

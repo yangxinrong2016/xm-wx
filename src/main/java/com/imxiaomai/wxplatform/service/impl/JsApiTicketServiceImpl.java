@@ -10,7 +10,7 @@ import javax.annotation.Resource;
 /**
  * Created by zengyaowen on 15-10-15.
  */
-@Service("JsApiTicketServiceImpl")
+@Service("jsApiTicketServiceImpl")
 public class JsApiTicketServiceImpl implements IJsApiTicketService {
     @Resource
     private JsapiTicketDAO jsapiTicketDAO;

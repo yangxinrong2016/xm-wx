@@ -7,8 +7,7 @@ import com.imxiaomai.wxplatform.util.EscapeUtil;
 import com.imxiaomai.wxplatform.weixin.exception.WXException;
 import com.imxiaomai.wxplatform.weixin.service.OAuthService;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +25,7 @@ import java.util.regex.Pattern;
 @RequestMapping("/oauth")
 public class OAuthController {
 
-    private static final Logger log = LoggerFactory.getLogger(OAuthController.class);
+    private static final Logger log = Logger.getLogger(OAuthController.class);
     @Resource
     OAuthService oAuthService;
     public static final Pattern urlPattern = Pattern.compile("url:([^,]+)[,}]");
@@ -88,13 +87,13 @@ public class OAuthController {
         String openid = "";
         try {
             if(log.isDebugEnabled()){
-                log.debug("h5mall/foward/grap url {}", url);
+                log.debug("h5mall/foward/grap url {"+url+"}");
             }
             //Hack 由于回调h5mall/foward/grap时需要传递packetCode&accessToken，但微信state参数最多支持128字节。所以url参数采用简写做map映射！
             if (StringUtils.isEmpty(url) && Constants.getUrl(url) != null) {
                 url = Constants.getUrl(url) + args;
                 if(log.isDebugEnabled()){
-                    log.debug("h5mall/foward/grap {} type {}", url + args, type);
+                    log.debug(url+"h5mall/foward/grap {"+args+"} type {" + type+ "}");
                 }
             }
             //url信息
@@ -106,7 +105,7 @@ public class OAuthController {
             String query = urlURL.getQuery();
             if (type == null || type.equals("")) {
                 log.debug("参数错误，state中的type参数为空");
-                gotoErrorPage(request, response);
+                gotoErrorPage(request, response, url);
             } else if (type.equals(Constants.OAUTH_TYPE_BASE)) {
                 //只需要获得用户的openid信息
                 openid = oAuthService.getOauthAccessTokenDTO(code).getOpenId();
@@ -114,7 +113,7 @@ public class OAuthController {
                 /*
                  * 安全角度考虑，链接中不再携带openid
                 String tmp = "openid="+openid;
-                
+
                 if(query == null || query.equals("")){
                     query = tmp;
                 }else{
@@ -138,17 +137,17 @@ public class OAuthController {
                 }
             } else {
                 log.debug("参数错误，state中的type参数未知，不知道怎么处理。type:" + type);
-                gotoErrorPage(request, response);
+                gotoErrorPage(request, response, url);
             }
             url = String.format("%s://%s%s?%s", urlURL.getProtocol(), urlURL.getHost(), urlURL.getPath(), query);
             log.debug("oauth跳转到:" + url);
         } catch (WXException e) {
             log.error("获得微信用户信息失败:" , e);
 //            AutoLogs.log(AutoLogs.LOG_TYPE_WXEXCEPTION_OAUTH, (int) (System.currentTimeMillis() - start));
-            gotoErrorPage(request, response);
+            gotoErrorPage(request, response, url);
         } catch (Exception e) {
             log.error("获得微信用户信息失败:" , e);
-            gotoErrorPage(request, response);
+            gotoErrorPage(request, response, url);
         }
         //埋openid的cookie
         Cookie openIdCookie = new Cookie(Constants.COOKIE_NAME_OPEN_ID, openid);
@@ -159,8 +158,17 @@ public class OAuthController {
         response.sendRedirect(url);
     }
     public void gotoErrorPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        //TODO:错误页面跳到哪里了？
-        response.sendRedirect("");
+        gotoErrorPage(request, response, "");
+    }
+
+    public void gotoErrorPage(HttpServletRequest request, HttpServletResponse response,String url) throws IOException {
+        if(log.isDebugEnabled()){
+            log.error("go to error page, url: " + url);
+        }
+        if(StringUtils.isEmpty(url)){
+            url = "";
+        }
+        response.sendRedirect(url);
     }
 
     public String getUrlParameterString(WxUser wxUser) {

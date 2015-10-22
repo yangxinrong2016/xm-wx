@@ -15,16 +15,12 @@
 		</layout>
 	</appender>
 	<!-- Root Logger -->
-
 	<category name="com.imxiaomai.wxplatform" additivity="false">
-		<priority value="debug"/>
+		<priority value="error"/>
 		<appender-ref ref="fileAppender" />
 	</category>
-
 	<root>
-		<level value="debug" />
+		<level value="error" />
 		<appender-ref ref="fileAppender" />
 	</root>
-
-
 </log4j:configuration>

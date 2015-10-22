@@ -3,8 +3,7 @@ package com.imxiaomai.wxplatform.util;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.text.translate.CharSequenceTranslator;
 import org.apache.commons.lang3.text.translate.LookupTranslator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
@@ -55,6 +54,6 @@ public class EscapeUtil {
 			{ "'", "&#34;" }, // XML apostrophe
 	});
 
-	static final Logger logger = LoggerFactory.getLogger(EscapeUtil.class);
+	private static final Logger logger = Logger.getLogger(EscapeUtil.class);
 
 }
