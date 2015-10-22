@@ -7,8 +7,7 @@ import com.imxiaomai.wxplatform.util.EscapeUtil;
 import com.imxiaomai.wxplatform.weixin.exception.WXException;
 import com.imxiaomai.wxplatform.weixin.service.OAuthService;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,7 +25,7 @@ import java.util.regex.Pattern;
 @RequestMapping("/oauth")
 public class OAuthController {
 
-    private static final Logger log = LoggerFactory.getLogger(OAuthController.class);
+    private static final Logger log = Logger.getLogger(OAuthController.class);
     @Resource
     OAuthService oAuthService;
     public static final Pattern urlPattern = Pattern.compile("url:([^,]+)[,}]");
@@ -88,13 +87,13 @@ public class OAuthController {
         String openid = "";
         try {
             if(log.isDebugEnabled()){
-                log.debug("h5mall/foward/grap url {}", url);
+                log.debug("h5mall/foward/grap url {"+url+"}");
             }
             //Hack 由于回调h5mall/foward/grap时需要传递packetCode&accessToken，但微信state参数最多支持128字节。所以url参数采用简写做map映射！
             if (StringUtils.isEmpty(url) && Constants.getUrl(url) != null) {
                 url = Constants.getUrl(url) + args;
                 if(log.isDebugEnabled()){
-                    log.debug("h5mall/foward/grap {} type {}", url + args, type);
+                    log.debug(url+"h5mall/foward/grap {"+args+"} type {" + type+ "}");
                 }
             }
             //url信息

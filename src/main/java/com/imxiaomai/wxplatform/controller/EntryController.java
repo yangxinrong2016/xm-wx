@@ -1,13 +1,12 @@
 package com.imxiaomai.wxplatform.controller;
 
-import com.imxiaomai.wxplatform.common.Constants;
 import com.imxiaomai.wxplatform.util.HttpReqUtils;
+import com.imxiaomai.wxplatform.util.SHA1;
 import com.imxiaomai.wxplatform.util.Xml;
 import com.imxiaomai.wxplatform.weixin.service.EventService;
 import com.imxiaomai.wxplatform.weixin.service.P2PService;
 import com.imxiaomai.wxplatform.weixin.service.TextMsgService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,14 +19,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import com.imxiaomai.wxplatform.util.SHA1;
 /**
  * Created by zengyaowen on 15-10-13.
  */
 @Controller
 public class EntryController {
 
-    private static final Logger log = LoggerFactory.getLogger(EntryController.class);
+    private static final Logger log = Logger.getLogger(EntryController.class);
     @Resource
     TextMsgService textMsgService;
     @Resource
@@ -68,7 +66,7 @@ public class EntryController {
             //AutoLogs.log(AutoLogs.LOG_TYPE_WXEXCEPTION_ENTRY_GET, (int) (System.currentTimeMillis() - start));
         }
         if(log.isDebugEnabled()){
-            log.debug("验证微信字符串, 微信:{}, 计算得到:{}", signature, tmpString);
+            log.debug("验证微信字符串, 微信:{"+signature+"}, 计算得到:{"+tmpString+"}");
         }
         if(tmpString.equals(signature)){
             return echostr;
@@ -98,7 +96,7 @@ public class EntryController {
         String ret = "";
         try {
             String tmpString = SHA1.gen(TOKEN, timestamp, nonce);
-            log.debug("验证微信字符串, 微信:{}, 计算得到:{}", signature, tmpString);
+            log.debug("验证微信字符串, 微信:{"+signature+"}, 计算得到:{"+tmpString+"}");
             if(tmpString.equals(signature)){
                 Xml.ParsedXml parsedXml = Xml.of(postData);
                 String toUser = parsedXml.text("ToUserName");
@@ -139,13 +137,13 @@ public class EntryController {
                         ret = eventService.handleEventPush(toUser, fromUser, createTime, parsedXml);
                         break;
                     default:
-                        log.debug("未知的消息类型:{}", msgType);
+                        log.debug("未知的消息类型:{"+msgType+"}");
                         //全是默认回复
                         ret = textMsgService.getDefaultResponseContent(toUser, fromUser, createTime);
                         break;
                 }
             }else {
-                log.debug("验证微信字符串失败, 微信:{}, 计算得到:{}", signature, tmpString);
+                log.debug("验证微信字符串失败, 微信:{"+signature+"}, 计算得到:{"+tmpString+"}");
             }
         }
 //        catch (NoSuchAlgorithmException e) {

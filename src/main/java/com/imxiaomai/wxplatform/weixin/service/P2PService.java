@@ -1,26 +1,20 @@
 package com.imxiaomai.wxplatform.weixin.service;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.imxiaomai.wxplatform.common.Constants;
-import com.imxiaomai.wxplatform.util.EscapeUtil;
 import com.imxiaomai.wxplatform.util.HttpClientUtils;
 import com.imxiaomai.wxplatform.util.ResourceUtil;
-import com.imxiaomai.wxplatform.util.StreamUtil;
 import com.imxiaomai.wxplatform.weixin.exception.WXException;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.tuple.Pair;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 @Service("p2PService")
 public class P2PService {
-    private static final Logger log = LoggerFactory.getLogger(P2PService.class);
+    private static final Logger log = Logger.getLogger(P2PService.class);
     @Value("${p2pactive.url}")
     public String P2P_ACTIVE_URL;
     @Value("${p2pgetmsg.url}")
