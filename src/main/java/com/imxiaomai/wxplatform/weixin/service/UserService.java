@@ -1,11 +1,13 @@
 package com.imxiaomai.wxplatform.weixin.service;
 
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.imxiaomai.wxplatform.common.Constants;
 import com.imxiaomai.wxplatform.common.WXErrorConstants;
 import com.imxiaomai.wxplatform.domain.AccessToken;
 import com.imxiaomai.wxplatform.domain.CustomMsg;
+import com.imxiaomai.wxplatform.dto.UserDTO;
 import com.imxiaomai.wxplatform.service.ICustomMsgServcie;
 import com.imxiaomai.wxplatform.util.HttpClientUtils;
 import com.imxiaomai.wxplatform.util.Md5Util;
@@ -21,14 +23,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-@Service("uidService")
-public class UidService {
+@Service("userService")
+public class UserService {
 
 	@Resource
 	AccessTokenService accessTokenService;
 
 	private static final Logger log = LoggerFactory
-			.getLogger(UidService.class);
+			.getLogger(UserService.class);
 	public String getUidByOpenId(String openId, String wxId, String appId, String appSecret){
 		String result = "";
 		AccessToken accessToken = null;
@@ -44,6 +46,23 @@ public class UidService {
 			}
 		} catch (Exception e) {
 			log.error("get uid faild, the openId is:"+ openId,e);
+		}
+		return result;
+	}
+
+	public UserDTO getUserByOpenId(String openId, String wxId, String appId, String appSecret){
+		UserDTO result = new UserDTO();
+		AccessToken accessToken = null;
+		try {
+			accessToken = accessTokenService.getAccessToken(wxId, appId, appSecret);
+			String url = String.format(Constants.GET_UID_URL,accessToken.getAccesstoken(),openId);
+			String retStr = HttpClientUtils.get(url);
+			if(StringUtils.isNotEmpty(retStr)){
+				JSONObject retJson = JSONObject.parseObject(retStr);
+				result = JSONObject.toJavaObject(retJson, UserDTO.class);
+			}
+		} catch (Exception e) {
+			log.error("get uidInfo faild, the openId is:"+ openId,e);
 		}
 		return result;
 	}

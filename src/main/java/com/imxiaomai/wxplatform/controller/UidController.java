@@ -2,7 +2,7 @@ package com.imxiaomai.wxplatform.controller;
 
 import com.imxiaomai.wxplatform.dto.RetDTO;
 import com.imxiaomai.wxplatform.util.JSONUtil;
-import com.imxiaomai.wxplatform.weixin.service.UidService;
+import com.imxiaomai.wxplatform.weixin.service.UserService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -24,7 +24,7 @@ import java.io.IOException;
 public class UidController {
 
     @Resource
-    UidService uidService;
+    UserService userService;
     @Value("${app.id}")
     public String APP_ID;
     @Value("${app.secret}")
@@ -33,7 +33,7 @@ public class UidController {
     public String WXID;
     @RequestMapping("/getByAppOpenId")
     @ResponseBody
-    public Object getByAppOpenId(HttpServletRequest request, HttpServletResponse response,
+    public Object getByOpenId(HttpServletRequest request, HttpServletResponse response,
                        @RequestParam(required=false, defaultValue="") String openId) throws IOException {
         RetDTO retDTO= new RetDTO();
         if(StringUtils.isEmpty(openId)){
@@ -41,10 +41,15 @@ public class UidController {
             retDTO.setMsg("openId is empty");
             return JSONUtil.toJson(retDTO);
         }
-        String uid = uidService.getUidByOpenId(openId, WXID, APP_ID, APP_SECRET);
-        retDTO.setCode(200);
-        retDTO.setMsg("成功获取uid");
-        retDTO.setData(uid);
+        String uid = userService.getUidByOpenId(openId, WXID, APP_ID, APP_SECRET);
+        if(StringUtils.isNotEmpty(uid)){
+            retDTO.setCode(200);
+            retDTO.setMsg("成功获取uid");
+            retDTO.setData(uid);
+            return JSONUtil.toJson(retDTO);
+        }
+        retDTO.setCode(500);
+        retDTO.setMsg("get unionId empty");
         return JSONUtil.toJson(retDTO);
     }
 }
