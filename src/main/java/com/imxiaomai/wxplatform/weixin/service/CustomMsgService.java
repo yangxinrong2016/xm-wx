@@ -75,7 +75,8 @@ public class CustomMsgService {
 			ctsMsg.setCreatetime(now);
 			ctsMsg.setUpdatetime(now);
 			ctsMsg.setRetry(0);
-			Integer ctsMsgId = customServiceImpl.insert(ctsMsg);
+			customServiceImpl.insert(ctsMsg);
+			Integer ctsMsgId = ctsMsg.getId();
 			url = String.format(url, accessToken.getAccesstoken());
 			String retStr = HttpClientUtils.post(url, textContent, Constants.CHARSET_UTF8);
 			log.debug("微信接口:{"+url+"}, 返回值:{"+retStr+"}");
