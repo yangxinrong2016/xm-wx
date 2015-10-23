@@ -150,12 +150,16 @@ public class OAuthController {
             gotoErrorPage(request, response, url);
         }
         //埋openid的cookie
-        Cookie openIdCookie = new Cookie(Constants.COOKIE_NAME_OPEN_ID, openid);
-        openIdCookie.setDomain(".imxiaomai.com");
-        openIdCookie.setPath("/");
-        openIdCookie.setMaxAge(864000);
-        response.addCookie(openIdCookie);
-        response.sendRedirect(url);
+        if(StringUtils.isNotEmpty(openid)){
+            Cookie openIdCookie = new Cookie(Constants.COOKIE_NAME_OPEN_ID, openid);
+            response.addCookie(openIdCookie);
+            openIdCookie.setDomain(".imxiaomai.com");
+            openIdCookie.setPath("/");
+            openIdCookie.setMaxAge(864000);
+            response.sendRedirect(url);
+        } else{
+            gotoErrorPage(request, response, url);
+        }
     }
     public void gotoErrorPage(HttpServletRequest request, HttpServletResponse response) throws IOException {
         gotoErrorPage(request, response, "");
