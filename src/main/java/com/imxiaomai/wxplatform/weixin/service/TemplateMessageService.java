@@ -59,7 +59,6 @@ public class TemplateMessageService {
     }
 
     public boolean syncSend(final String msgJsonString, final String openid, final String wxId, final Integer retry) throws WXException{
-
         long start = System.currentTimeMillis();
         try {
             String url = Constants.TEMPLATE_SEND_URL;
