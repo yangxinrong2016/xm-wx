@@ -10,10 +10,10 @@ public class WXErrorConstants {
     public static final int ERROR_NO_ACCESS_TOKEN_EXPIRED = 42001;
     public static final int ERROR_NO_ACCESS_TOKEN_ERROR = 40001;
     public static final int ERROR_NO_ACCESS_TOKEN_INVALID = 40014;
-    
+    public static final int SUCCESS = 0;
     static{
         erorMsgMap.put(-1, "系统繁忙");
-        erorMsgMap.put(0, "请求成功");
+        erorMsgMap.put(SUCCESS, "请求成功");
         erorMsgMap.put(ERROR_NO_ACCESS_TOKEN_ERROR, "获取access_token时AppSecret错误，或者access_token无效");
         erorMsgMap.put(40002, "不合法的凭证类型");
         erorMsgMap.put(40003, "不合法的OpenID");

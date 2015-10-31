@@ -69,21 +69,42 @@ public class CustomMsgController {
             retDTO.setMsg("send custom msg faile");
             return JSONUtil.toJson(retDTO);
         }
-//        catch (WXException e) {
-//            log.error("发送【文本】客服消息出现异常，"+e.getMessage());
-//            e.printStackTrace();
-//            AutoLogs.log(AutoLogs.LOG_TYPE_WXEXCEPTION_CUSTOMMSG, (int)(System.currentTimeMillis() - start));
-//            return buildJson(-1, "发送失败，异常信息:"+e.getMessage());
-//        } catch (IOException e) {
-//            log.error("解析post数据异常，"+e.getMessage());
-//            e.printStackTrace();
-//            AutoLogs.log(AutoLogs.LOG_TYPE_IOEXCEPTION, (int)(System.currentTimeMillis() - start));
-//            return buildJson(-2, "解析post数据异常，"+e.getMessage());
-//        }
         retDTO.setCode(0);
         retDTO.setMsg("成功");
         return JSONUtil.toJson(retDTO);
-//        return buildJson(0, "成功");
+    }
+
+    @RequestMapping("/sendTextAndTemplateMsg")
+    @ResponseBody
+    public Object sendTAndTemplateMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        long start = System.currentTimeMillis();
+        RetDTO retDTO = new RetDTO();
+        String postData = HttpReqUtils.getDataFromRequest(request);
+        if(log.isDebugEnabled()){
+            log.debug("/customMsg/sendTextAndTemplateMsg postData:{"+postData+"}");
+        }
+        try {
+            JSONObject ret = JSONObject.parseObject(postData);
+            String openid = ret.getString("openid");
+            String content = ret.getString("content");
+            String templateMsg = ret.getString("templateMsg");
+            if(StringUtils.isEmpty(openid) || StringUtils.isEmpty(content)){
+                retDTO.setCode(500);
+                retDTO.setMsg("openid is null or content is null");
+                return JSONUtil.toJson(retDTO);
+            }
+            // 异步请求
+            customMsgService.sendTextAndTemplateMsg(WX_ID, openid, content, templateMsg);
+        } catch (Exception e){
+            log.error("send custom msg faile", e);
+            retDTO.setCode(-2);
+            retDTO.setMsg("send custom msg faile");
+            return JSONUtil.toJson(retDTO);
+        }
+        retDTO.setCode(0);
+        retDTO.setMsg("成功");
+        return JSONUtil.toJson(retDTO);
     }
     
 }
