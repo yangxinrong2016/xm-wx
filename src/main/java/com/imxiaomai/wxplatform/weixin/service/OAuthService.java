@@ -45,8 +45,8 @@ public class OAuthService {
             String token = responseJsonNode.getString("access_token");
             if(errcode != null){
                 //获取accesstoken失败
-                log.error("获取微信openId失败,"+response);
-                throw new WXException("获取微信openId失败,"+response);
+                log.error("获取微信openId失败,"+retStr);
+                throw new WXException("获取微信openId失败,"+retStr);
             }else {
                 oauthAccessTokenDTO.setOpenId(openid);
                 oauthAccessTokenDTO.setToken(token);
