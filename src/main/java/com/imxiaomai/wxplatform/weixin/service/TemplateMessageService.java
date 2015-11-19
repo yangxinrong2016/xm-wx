@@ -22,6 +22,7 @@ import java.util.Map;
 public class TemplateMessageService {
 
     private static final Logger log = Logger.getLogger(TemplateMessageService.class);
+    private static final Logger log4Send = Logger.getLogger("infoLog");
     @Resource
     ITemplateMsgService templateMsgService;
     @Resource
@@ -91,6 +92,7 @@ public class TemplateMessageService {
                 tplMsg.setErrmsg(getErrorCodeMsg(ERROR_CODE_SEND_TO_WX_FAIL));
                 templateMsgService.update(tplMsg);
                 log.error("访问微信接口失败, 接口:{"+url+"}, 返回值:{"+retStr+"}");
+                log4Send.error("fail | syncSend | 访问微信接口失败, 接口:{"+url+"}, 返回值:{"+retStr+"}  | errorCode:"+ERROR_CODE_SEND_TO_WX_FAIL);
                 throw new WXException(String.format("访问微信接口失败, 接口:%s, 返回值:%s", url, retStr));
             }
 
@@ -101,6 +103,7 @@ public class TemplateMessageService {
             tplMsg = templateMsgService.getById(tplMsgId);
             if(tplMsg == null){
                 log.error("没有找到此模板消息, tplMsgId:{"+tplMsgId+"}");
+                log4Send.error("fail | syncSend | 没有找到此模板消息, tplMsgId:{"+tplMsgId+"}  | errorCode:");
                 throw new WXException("没有找到此模板消息, tplMsgId:"+tplMsgId);
             }
             tplMsg.setErrorcode(errcode);
@@ -111,6 +114,7 @@ public class TemplateMessageService {
             if (errcode != 0) {
                 //发送模板失败
                 log.error("调用模板消息接口失败, tplMsgId:{"+tplMsgId+"}, errcode:{"+errcode+"}, errmsg:{"+WXErrorConstants.getErrorMsg(errcode)+"}");
+                log4Send.error("fail | syncSend | 调用模板消息接口失败, tplMsgId:{"+tplMsgId+"},errmsg:{"+WXErrorConstants.getErrorMsg(errcode)+"} | errorCode:"+errcode);
                 throw new WXException("调用模板消息接口失败, " + retStr);
             }
 

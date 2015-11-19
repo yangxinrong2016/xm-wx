@@ -14,6 +14,13 @@
 			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p  %c{2} - %m%n" />
 		</layout>
 	</appender>
+	<appender name="fileAppender4SendMsg" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/Users/zengyaowen/logs/sendMsg.log" />
+		<param name="DatePattern" value="'.'yyyy-MM-dd" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss,SSS} %5p  - %m%n" />
+		</layout>
+	</appender>
 
 	<!-- Root Logger -->
 	
@@ -26,6 +33,11 @@
 		<level value="debug" />
 		<appender-ref ref="myConsole" />
 	</root>
+ 	<logger name="infoLog" additivity="false">
+       <priority value="info"/>
+		<appender-ref ref="fileAppender4SendMsg" />
+    </logger>
+    
 
 
 </log4j:configuration>
