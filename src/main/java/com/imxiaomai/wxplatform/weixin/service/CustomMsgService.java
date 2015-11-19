@@ -31,6 +31,7 @@ public class CustomMsgService {
     TemplateMessageService templateMsgService;
 
     private static final Logger log = Logger.getLogger(CustomMsgService.class);
+    private static final Logger log1 = Logger.getLogger("infoLog");
 
     public static final long MAX_RETRY = 3;
 
@@ -69,8 +70,11 @@ public class CustomMsgService {
         if(accessTokenExpiredRetry && (errcode == WXErrorConstants.ERROR_NO_ACCESS_TOKEN_EXPIRED
                 || errcode == WXErrorConstants.ERROR_NO_ACCESS_TOKEN_ERROR || errcode == WXErrorConstants.ERROR_NO_ACCESS_TOKEN_INVALID)){
             accessTokenService.refreshAccessToken(wxId);
-            return sendText(wxId, openid, content);
+            int errorcode = sendText(wxId, openid, content);
+            buildLog(wxId,openid,content,errorcode,"sendText");
+            return errorcode;
         }else{
+        	buildLog(wxId,openid,content,errcode,"sendText");
             return errcode;
         }
     }
@@ -142,5 +146,18 @@ public class CustomMsgService {
         String textContent = textJson.toString();
         log.debug("【文本】客服消息内容:{" + textContent + "}");
         return textContent;
+    }
+    
+    private void buildLog(String wxId,String openid,String content,int errorcode, String func)
+    {
+    	String errorRes = WXErrorConstants.erorMsgMap.get(errorcode);
+    	  if (errorcode != 0)
+          {
+          	log1.error("fail | "+func+" | "+errorRes+" | WX_ID:"+wxId+" | openid:"+openid+" | content:"+content+" | errorCode:"+errorcode);
+          }
+          else
+          {
+          	log1.info("success | "+func+" | "+errorRes+" | WX_ID:"+wxId+" | openid:"+openid+" | content:"+content+" | errorCode:"+errorcode);
+          }
     }
 }
