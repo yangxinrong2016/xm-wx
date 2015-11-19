@@ -116,7 +116,6 @@ public class CustomMsgController {
         }
         retDTO.setCode(0);
         retDTO.setMsg("成功");
-        log1.info("success | sendTAndTemplateMsg | send success | openid:"+openid+" | content:"+content+" | errorCode:0");
         return JSONUtil.toJson(retDTO);
     }
     
