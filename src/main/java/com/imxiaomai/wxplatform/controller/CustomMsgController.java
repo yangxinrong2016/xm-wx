@@ -29,7 +29,7 @@ import java.io.IOException;
 public class CustomMsgController {
 
     private static final Logger log = Logger.getLogger(CustomMsgController.class);
-    private static final Logger log1 = Logger.getLogger("infoLog");
+    private static final Logger log4Send = Logger.getLogger("infoLog");
     @Resource
     CustomMsgService customMsgService;
     @Value("${wxid}")
@@ -63,7 +63,7 @@ public class CustomMsgController {
                 retDTO.setCode(500);
                 retDTO.setMsg("openid is null or content is null");
                String retDtoJson =  JSONUtil.toJson(retDTO);
-               log1.error("fail | send | openid is null or content is null | WX_ID:"+WX_ID+" | openid:"+openid+" | content:"+content+" | errorCode:500");
+               log4Send.error("fail | send | openid is null or content is null | WX_ID:"+WX_ID+" | openid:"+openid+" | content:"+content+" | errorCode:500");
                 return retDtoJson;
             }
             // 异步请求
@@ -72,9 +72,7 @@ public class CustomMsgController {
             log.error("send custom msg faile", e);
             retDTO.setCode(-2);
             retDTO.setMsg("send custom msg faile");
-            String retDtoJson = JSONUtil.toJson(retDTO);
-            log1.error("fail | send | send custom msg fail and exception occured | WX_ID:"+WX_ID+" | openid:"+openid+" | content:"+content+" | errorCode:-2");
-            return retDtoJson;
+            return JSONUtil.toJson(retDTO);
         }
         retDTO.setCode(0);
         retDTO.setMsg("成功");
@@ -102,7 +100,7 @@ public class CustomMsgController {
             if(StringUtils.isEmpty(openid) || StringUtils.isEmpty(content)){
                 retDTO.setCode(500);
                 retDTO.setMsg("openid is null or content is null");
-                log1.error("fail | sendTAndTemplateMsg | openid is null or content is null | openid:"+openid+" | content:"+content+" | errorCode:500");
+                log4Send.error("fail | sendTAndTemplateMsg | openid is null or content is null | openid:"+openid+" | content:"+content+" | errorCode:500");
                 return JSONUtil.toJson(retDTO);
             }
             // 异步请求
@@ -111,7 +109,6 @@ public class CustomMsgController {
             log.error("send custom msg faile", e);
             retDTO.setCode(-2);
             retDTO.setMsg("send custom msg faile");
-            log1.error("fail | sendTAndTemplateMsg | send custom msg faile | openid:"+openid+" | content:"+content+" | errorCode:-2");
             return JSONUtil.toJson(retDTO);
         }
         retDTO.setCode(0);

@@ -31,7 +31,7 @@ public class CustomMsgService {
     TemplateMessageService templateMsgService;
 
     private static final Logger log = Logger.getLogger(CustomMsgService.class);
-    private static final Logger log1 = Logger.getLogger("infoLog");
+    private static final Logger log4Send = Logger.getLogger("infoLog");
 
     public static final long MAX_RETRY = 3;
 
@@ -56,12 +56,12 @@ public class CustomMsgService {
             errorcode = this.sendText(wxId, openid, textContent, true);
         } catch (Exception e) {
             log.error("send text msg failed", e);
+        	log4Send.info("fail | sendTextAndTemplateMsg | send text msg failed | wxId:"+wxId+" | openid:"+openid+" | textContent:"+textContent+" | templateMsg:"+templateMsg+" | errorCode:"+errorcode);
+
         }
         if(WXErrorConstants.SUCCESS != errorcode){
             templateMsgService.send(templateMsg, openid, wxId);
         }
-
-
     }
 
     public int sendText(final String wxId, final String openid,
@@ -153,11 +153,11 @@ public class CustomMsgService {
     	String errorRes = WXErrorConstants.erorMsgMap.get(errorcode);
     	  if (errorcode != 0)
           {
-          	log1.error("fail | "+func+" | "+errorRes+" | WX_ID:"+wxId+" | openid:"+openid+" | content:"+content+" | errorCode:"+errorcode);
+          	log4Send.error("fail | "+func+" | "+errorRes+" | WX_ID:"+wxId+" | openid:"+openid+" | content:"+content+" | errorCode:"+errorcode);
           }
           else
           {
-          	log1.info("success | "+func+" | "+errorRes+" | WX_ID:"+wxId+" | openid:"+openid+" | content:"+content+" | errorCode:"+errorcode);
+          	log4Send.info("success | "+func+" | "+errorRes+" | WX_ID:"+wxId+" | openid:"+openid+" | content:"+content+" | errorCode:"+errorcode);
           }
     }
 }
