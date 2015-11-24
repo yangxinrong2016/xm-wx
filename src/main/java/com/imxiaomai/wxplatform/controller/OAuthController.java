@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -31,6 +33,13 @@ public class OAuthController {
     public static final Pattern urlPattern = Pattern.compile("url:([^,]+)[,}]");
     public static final Pattern typePattern = Pattern.compile("type:([^,]+)[,}]");
     public static final Pattern pPattern = Pattern.compile("p:([^,]+)[,}]");
+    public static final String WEI_XIN_FOWARD_GRAP = "fg";
+    public static final String MALL_NEW_VERSION = "pni";
+    public static final Map<String, String> urlMap = new HashMap<String, String>();
+    static {
+        urlMap.put(WEI_XIN_FOWARD_GRAP, "http://m.m.mall.test.imxiaomai.com/forward/grap");
+        urlMap.put(MALL_NEW_VERSION, "http://wap.tmall.imxiaomai.com/page/newv4/index.html?null#/qrcodepay?");
+    }
     @RequestMapping("/redirect")
     public void redirect(HttpServletRequest request, HttpServletResponse response,
                            @RequestParam String state, @RequestParam(required = false, defaultValue = "") String code) throws IOException {
@@ -89,8 +98,8 @@ public class OAuthController {
                 log.debug("h5mall/foward/grap url {"+url+"}");
             }
             //Hack 由于回调h5mall/foward/grap时需要传递packetCode&accessToken，但微信state参数最多支持128字节。所以url参数采用简写做map映射！
-            if (StringUtils.isNotEmpty(Constants.getUrl(url))) {
-                url = Constants.getUrl(url) + args;
+            if (StringUtils.isNotEmpty(this.urlMap.get(url))) {
+                url = this.urlMap.get(url) + args;
                 if(log.isDebugEnabled()){
                     log.debug(url+"h5mall/foward/grap {"+args+"} type {" + type+ "}");
                 }
