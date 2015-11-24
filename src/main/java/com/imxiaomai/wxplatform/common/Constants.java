@@ -52,10 +52,12 @@ public class Constants {
         public static final String GET_UID_URL = "https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s";
         public static final String COOKIE_NAME_OPEN_ID = "xiaomai_open_id";
         public static final String WEI_XIN_FOWARD_GRAP = "fg";
+        public static final String MALL_NEW_VERSION = "pni";
 //        private static final Config defH5MallURL = Config.of("h5mall_url", "http://m.m.mall.test.imxiaomai.com");
         public static final Map<String, String> urlMap = new HashMap<String, String>();
         static {
                 urlMap.put(WEI_XIN_FOWARD_GRAP, "http://m.m.mall.test.imxiaomai.com/forward/grap");
+                urlMap.put(MALL_NEW_VERSION, "http://wap.tmall.imxiaomai.com/page/newv4/index.html?null#/qrcodepay?");
         }
         public static String getUrl(String ab) {
                 return urlMap.get(ab);

@@ -31,7 +31,6 @@ public class OAuthController {
     public static final Pattern urlPattern = Pattern.compile("url:([^,]+)[,}]");
     public static final Pattern typePattern = Pattern.compile("type:([^,]+)[,}]");
     public static final Pattern pPattern = Pattern.compile("p:([^,]+)[,}]");
-
     @RequestMapping("/redirect")
     public void redirect(HttpServletRequest request, HttpServletResponse response,
                            @RequestParam String state, @RequestParam(required = false, defaultValue = "") String code) throws IOException {
@@ -90,7 +89,7 @@ public class OAuthController {
                 log.debug("h5mall/foward/grap url {"+url+"}");
             }
             //Hack 由于回调h5mall/foward/grap时需要传递packetCode&accessToken，但微信state参数最多支持128字节。所以url参数采用简写做map映射！
-            if (StringUtils.isEmpty(url) && Constants.getUrl(url) != null) {
+            if (StringUtils.isNotEmpty(Constants.getUrl(url))) {
                 url = Constants.getUrl(url) + args;
                 if(log.isDebugEnabled()){
                     log.debug(url+"h5mall/foward/grap {"+args+"} type {" + type+ "}");
