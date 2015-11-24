@@ -38,7 +38,7 @@ public class OAuthController {
     public static final Map<String, String> urlMap = new HashMap<String, String>();
     static {
         urlMap.put(WEI_XIN_FOWARD_GRAP, "http://m.m.mall.test.imxiaomai.com/forward/grap");
-        urlMap.put(MALL_NEW_VERSION, "http://wap.tmall.imxiaomai.com/page/newv4/index.html?null#/qrcodepay?");
+        urlMap.put(MALL_NEW_VERSION, "http://wap.tmall.imxiaomai.com/page/qrcodepay/index.html?null#/qrcodepay/?");
     }
     @RequestMapping("/redirect")
     public void redirect(HttpServletRequest request, HttpServletResponse response,
@@ -148,6 +148,9 @@ public class OAuthController {
                 gotoErrorPage(request, response, url);
             }
             url = String.format("%s://%s%s?%s", urlURL.getProtocol(), urlURL.getHost(), urlURL.getPath(), query);
+            if(StringUtils.isNotEmpty(urlURL.getRef())){
+                url = url + "#" + urlURL.getRef();
+            }
             log.debug("oauth跳转到:" + url);
         } catch (WXException e) {
             log.error("获得微信用户信息失败:" , e);
