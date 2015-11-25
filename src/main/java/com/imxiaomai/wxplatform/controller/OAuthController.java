@@ -6,8 +6,10 @@ import com.imxiaomai.wxplatform.domain.WxUser;
 import com.imxiaomai.wxplatform.util.EscapeUtil;
 import com.imxiaomai.wxplatform.weixin.exception.WXException;
 import com.imxiaomai.wxplatform.weixin.service.OAuthService;
+import com.imxiaomai.wxplatform.weixin.service.ShorUrlService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,16 +32,11 @@ public class OAuthController {
     private static final Logger log = Logger.getLogger(OAuthController.class);
     @Resource
     OAuthService oAuthService;
+    @Resource
+    ShorUrlService shorUrlService;
     public static final Pattern urlPattern = Pattern.compile("url:([^,]+)[,}]");
     public static final Pattern typePattern = Pattern.compile("type:([^,]+)[,}]");
     public static final Pattern pPattern = Pattern.compile("p:([^,]+)[,}]");
-    public static final String WEI_XIN_FOWARD_GRAP = "fg";
-    public static final String MALL_NEW_VERSION = "pni";
-    public static final Map<String, String> urlMap = new HashMap<String, String>();
-    static {
-        urlMap.put(WEI_XIN_FOWARD_GRAP, "http://m.m.mall.test.imxiaomai.com/forward/grap");
-        urlMap.put(MALL_NEW_VERSION, "http://wap.tmall.imxiaomai.com/page/qrcodepay/index.html?null#/qrcodepay/?");
-    }
     @RequestMapping("/redirect")
     public void redirect(HttpServletRequest request, HttpServletResponse response,
                            @RequestParam String state, @RequestParam(required = false, defaultValue = "") String code) throws IOException {
@@ -98,8 +95,8 @@ public class OAuthController {
                 log.debug("h5mall/foward/grap url {"+url+"}");
             }
             //Hack 由于回调h5mall/foward/grap时需要传递packetCode&accessToken，但微信state参数最多支持128字节。所以url参数采用简写做map映射！
-            if (StringUtils.isNotEmpty(this.urlMap.get(url))) {
-                url = this.urlMap.get(url) + args;
+            if (StringUtils.isNotEmpty(shorUrlService.getUrl(url))) {
+                url = shorUrlService.getUrl(url) + args;
                 if(log.isDebugEnabled()){
                     log.debug(url+"h5mall/foward/grap {"+args+"} type {" + type+ "}");
                 }
@@ -148,9 +145,6 @@ public class OAuthController {
                 gotoErrorPage(request, response, url);
             }
             url = String.format("%s://%s%s?%s", urlURL.getProtocol(), urlURL.getHost(), urlURL.getPath(), query);
-            if(StringUtils.isNotEmpty(urlURL.getRef())){
-                url = url + "#" + urlURL.getRef();
-            }
             log.debug("oauth跳转到:" + url);
         } catch (WXException e) {
             log.error("获得微信用户信息失败:" , e);
