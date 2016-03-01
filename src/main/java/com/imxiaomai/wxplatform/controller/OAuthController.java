@@ -112,8 +112,11 @@ public class OAuthController {
             String query = urlURL.getQuery();
             if (type == null || type.equals("")) {
                 log.debug("参数错误，state中的type参数为空");
-                gotoErrorPage(request, response, url);
-            } else if (type.equals(Constants.OAUTH_TYPE_BASE)) {
+                //不符合默认使用base
+                type = "base";
+                //gotoErrorPage(request, response, url);
+            }
+            if (type.equals(Constants.OAUTH_TYPE_BASE)) {
                 //只需要获得用户的openid信息
                 openid = oAuthService.getOauthAccessTokenDTO(code).getOpenId();
                 log.debug("微信用户openid:" + openid);
