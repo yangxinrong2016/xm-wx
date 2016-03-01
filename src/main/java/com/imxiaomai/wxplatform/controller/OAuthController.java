@@ -78,6 +78,8 @@ public class OAuthController {
                 String g1 = matcher.group(1);
                 if (g1 != null) {
                     type = g1;
+                } else{//不符合默认使用base
+                    type = "base";
                 }
             }
             matcher = pPattern.matcher(state);
