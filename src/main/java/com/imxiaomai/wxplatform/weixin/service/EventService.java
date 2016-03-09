@@ -24,6 +24,8 @@ public class EventService {
     ITemplateMsgService templateMsgServiceImpl;
     @Resource
     IWxUserService wxUserServiceImpl;
+    @Resource
+    FinanceService financeService;
     /**
      * 处理微信推送的事件
      * 
@@ -64,6 +66,7 @@ public class EventService {
                     }
                     log.debug("通过扫描二维码关注, wxId:{"+wxId+"}, openid:{"+openid+"}, key:{"+key+"}, ticket:{"+ticket+"}, source:{"+source+"}");
                     p2PService.pushUserActivity(openid, "扫码关注", "来源:"+source);
+                    financeService.pushUserActivity(openid, source);
                 }else {
                     p2PService.pushUserActivity(openid, "关注", "");
                 }
@@ -160,6 +163,10 @@ public class EventService {
                 }
                 log.debug("已关注用户扫码, wxId:{"+wxId+"}, openid:{"+openid+"}, key:{"+key+"}, ticket:{"+ticket+"}, source:{"+source+"}");
                 p2PService.pushUserActivity(openid, "已关注用户扫码", "来源:"+source);
+                if(source > 0){
+                    //从渠道导入的流量才通知金融，用于金融建立用户和门店的关联关系
+                    financeService.pushUserActivity(openid, source);
+                }
                 break;
             case "LOCATION":
                 //上报地理位置事件
